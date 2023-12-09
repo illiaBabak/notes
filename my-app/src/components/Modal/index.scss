@@ -1,0 +1,124 @@
+.overlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(44, 39, 46, 0.761);
+  z-index: 2;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  .modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: 600px;
+    background-color: white;
+    border-radius: 8px;
+
+    &:hover {
+      cursor: default;
+    }
+
+    .header,
+    .main {
+      width: 90%;
+    }
+
+    .header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      font-size: 20px;
+      border-bottom: 2px solid gray;
+
+      .close-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 32px;
+        width: 30px;
+        height: 30px;
+        margin-bottom: 48px;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
+    .main {
+      .add-note-wrapper {
+        &.disabled {
+          cursor: not-allowed;
+
+          .add-note-button {
+            pointer-events: none;
+            opacity: 0.5;
+          }
+        }
+
+        .add-note-button {
+          width: 100%;
+          height: 50px;
+          color: white;
+          font-size: 18px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #1f083af3;
+          border-radius: 4px;
+          margin-top: 84px;
+
+          &:hover {
+            cursor: pointer;
+            transform: scale(1.05);
+            transition: 0.2s;
+          }
+        }
+      }
+
+      .block {
+        display: flex;
+        flex-direction: column;
+
+        p {
+          font-size: 24px;
+        }
+
+        input {
+          width: 100%;
+          height: 25px;
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
+        textarea,
+        input {
+          border: 1px solid rgb(63, 63, 63);
+          border-radius: 4px;
+        }
+
+        textarea {
+          resize: none;
+          width: 100%;
+          height: 160px;
+        }
+      }
+    }
+  }
+}

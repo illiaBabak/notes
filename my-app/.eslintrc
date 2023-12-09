@@ -9,6 +9,7 @@
     }
   },
   "plugins": ["@typescript-eslint"],
+  "extends": ["plugin:react/recommended"],
   "overrides": [
     {
       "files": [".ts", ".tsx"],
@@ -36,6 +37,8 @@
     "quote-props": ["error", "as-needed"],
     "prefer-object-spread": "error",
     "no-array-constructor": "error",
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
     "prefer-destructuring": [
       "error",
       {
