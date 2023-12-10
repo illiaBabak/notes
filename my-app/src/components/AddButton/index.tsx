@@ -1,5 +1,3 @@
-import './index.scss';
-
 type Props = {
   handleClick: () => void;
 };

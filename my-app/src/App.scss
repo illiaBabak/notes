@@ -1,3 +1,5 @@
+@import './components';
+
 .container,
 #root {
   display: flex;
@@ -5,6 +7,9 @@
   justify-content: flex-start;
   align-items: flex-start;
   min-width: 100%;
-  height: 100%;
+  min-height: 100%;
+}
+
+#root {
   background-color: #3e2360f3;
 }

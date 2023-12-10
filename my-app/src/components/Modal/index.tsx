@@ -1,5 +1,4 @@
 import { NoteType } from 'src/types/note';
-import './index.scss';
 import { generateKey } from 'src/utils/generateKey';
 import { useState } from 'react';
 
@@ -9,25 +8,30 @@ type Props = {
   onSave: (note: NoteType) => void;
 };
 
-export default function Modal({ setIsModalVisible, onSave, selectedNote }: Props): JSX.Element {
+export const Modal = ({ setIsModalVisible, onSave, selectedNote }: Props): JSX.Element => {
+  const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
   const [currentNote, setCurrentNote] = useState(
     selectedNote ?? {
       title: '',
       description: '',
       key: generateKey(16),
+      date: currentDate,
+      type: 'regular',
     }
   );
 
   const isFormValid = currentNote.description.length && currentNote.title.length;
-  function handleClick(): void {
-    setIsModalVisible((prev) => !prev);
-  }
 
-  function handleInput({ target }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
+  const handleClick = (): void => setIsModalVisible((prev) => !prev);
+
+  const handleInput = ({
+    target,
+  }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void => {
     setCurrentNote((prev) => {
       return { ...prev, [target.name]: target.value };
     });
-  }
+  };
 
   return (
     <div className='overlay' onClick={handleClick}>
@@ -54,6 +58,15 @@ export default function Modal({ setIsModalVisible, onSave, selectedNote }: Props
             ></textarea>
           </div>
 
+          <div className='block'>
+            <p>Type</p>
+            <select name='type' onChange={handleInput} value={currentNote.type}>
+              <option value='regular'>Regular</option>
+              <option value='important'>Important</option>
+              <option value='reminder'>Reminder</option>
+            </select>
+          </div>
+
           <div className={`add-note-wrapper ${!isFormValid ? 'disabled' : ''}`}>
             <button className='add-note-button' onClick={() => onSave(currentNote)}>
               {selectedNote ? 'Edit note' : 'Add note'}
@@ -63,4 +76,4 @@ export default function Modal({ setIsModalVisible, onSave, selectedNote }: Props
       </div>
     </div>
   );
-}
+};

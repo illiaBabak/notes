@@ -8,6 +8,7 @@
       "jsx": true
     }
   },
+
   "plugins": ["@typescript-eslint"],
   "extends": ["plugin:react/recommended"],
   "overrides": [

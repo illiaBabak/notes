@@ -1,5 +1,4 @@
 import { NoteType } from 'src/types/note';
-import './index.scss';
 
 type Props = {
   note: NoteType;
@@ -7,18 +6,16 @@ type Props = {
   onEdit: () => void;
 };
 
-export default function Note({ note, onDelete, onEdit }: Props): JSX.Element {
-  const currentDate = new Date();
-
+export const Note = ({ note, onDelete, onEdit }: Props): JSX.Element => {
   return (
     <div className='note'>
       <div className='header'>
-        <h3>{note.title}</h3>
+        <h3 className={note.type}>{note.title}</h3>
         <p>{note.description}</p>
       </div>
 
       <div className='footer'>
-        <p>{currentDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+        <p>{note.date}</p>
         <div className='container-buttons'>
           <div className='note-button' onClick={onEdit}>
             <img src='content/edit.png' />
@@ -30,4 +27,4 @@ export default function Note({ note, onDelete, onEdit }: Props): JSX.Element {
       </div>
     </div>
   );
-}
+};

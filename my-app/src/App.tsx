@@ -1,12 +1,18 @@
 import { useState } from 'react';
 import './App.scss';
-import NotesList from './components/NotesList';
+import { NotesPage } from './components/NotesPage';
 import { NoteType } from './types/note';
 import { AddButton } from './components/AddButton';
-import Modal from './components/Modal';
+import { Modal } from './components/Modal';
+import { StorageButton } from './components/StorageButton';
+import { isNotesArray } from './utils/guards';
 
-export function App(): JSX.Element {
-  const [notes, setNotes] = useState<NoteType[]>([]);
+export const App = (): JSX.Element => {
+  const storageNotesData = localStorage.getItem('notes');
+  const parsedNotes: unknown = storageNotesData ? JSON.parse(storageNotesData) : [];
+  const existingNotes = isNotesArray(parsedNotes) ? parsedNotes : [];
+
+  const [notes, setNotes] = useState<NoteType[]>(existingNotes);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedNote, setSelectedNote] = useState<NoteType | null>(null);
 
@@ -19,11 +25,14 @@ export function App(): JSX.Element {
   return (
     <div className='container'>
       {!isModalVisible ? (
-        <AddButton handleClick={() => setIsModalVisible(!isModalVisible)} />
+        <>
+          <AddButton handleClick={() => setIsModalVisible(!isModalVisible)} />
+          <StorageButton notes={notes} />
+        </>
       ) : (
         <Modal onSave={handleSave} setIsModalVisible={setIsModalVisible} selectedNote={selectedNote} />
       )}
-      <NotesList
+      <NotesPage
         setSelectedNote={setSelectedNote}
         notes={notes}
         setNotes={setNotes}
@@ -31,4 +40,4 @@ export function App(): JSX.Element {
       />
     </div>
   );
-}
+};
