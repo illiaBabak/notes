@@ -4,11 +4,13 @@ type Props = {
   note: NoteType;
   onDelete: () => void;
   onEdit: () => void;
+  onDragStart: (note: NoteType) => void;
+  className?: string;
 };
 
-export const Note = ({ note, onDelete, onEdit }: Props): JSX.Element => {
+export const Note = ({ note, onDelete, onEdit, onDragStart, className }: Props): JSX.Element => {
   return (
-    <div className='note'>
+    <div className={`note ${className ?? ''}`} draggable onDragStart={() => onDragStart(note)}>
       <div className='header'>
         <h3 className={note.type}>{note.title}</h3>
         <p>{note.description}</p>

@@ -5,20 +5,34 @@ import { Dispatch, SetStateAction } from 'react';
 type Props = {
   notes: NoteType[];
   headerText: string;
+  isDrag: boolean;
+  draggedNoteKey: string | null;
   setNotes: Dispatch<SetStateAction<NoteType[]>>;
   setSelectedNote: Dispatch<SetStateAction<NoteType | null>>;
   setIsModalVisible: Dispatch<SetStateAction<boolean>>;
+  onDrop: (notes: NoteType[]) => void;
+  onDragStart: (note: NoteType) => void;
 };
 
-export const NotesList = ({ notes, headerText, setNotes, setSelectedNote, setIsModalVisible }: Props): JSX.Element => {
+export const NotesList = ({
+  notes,
+  headerText,
+  isDrag,
+  setNotes,
+  setSelectedNote,
+  setIsModalVisible,
+  onDrop,
+  onDragStart,
+  draggedNoteKey,
+}: Props): JSX.Element => {
   const deleteNote = (key: string) => setNotes((prev) => prev.filter((note) => note.key !== key));
 
   return (
     <>
-      {notes.length && (
-        <div className='col'>
+      {!!notes.length && (
+        <div className='col' onDrop={() => onDrop(notes)} onDragOver={(e) => e.preventDefault()}>
           <h2>{headerText}</h2>
-          <div className='container-notes'>
+          <div className={`container-notes ${isDrag ? 'dragged' : ''}`}>
             {notes.map((note) => (
               <Note
                 note={note}
@@ -28,6 +42,8 @@ export const NotesList = ({ notes, headerText, setNotes, setSelectedNote, setIsM
                   setSelectedNote(note);
                   setIsModalVisible((prev) => !prev);
                 }}
+                onDragStart={() => onDragStart(note)}
+                className={note.key === draggedNoteKey ? 'hidden' : ''}
               />
             ))}
           </div>
