@@ -31,10 +31,10 @@ export const Note = ({ note, className }: PropsType): JSX.Element => {
         <p>{note.date}</p>
         <div className='container-buttons'>
           <div className='note-button' onClick={editNote}>
-            <img src='content/edit.png' />
+            <img />
           </div>
           <div className='note-button' onClick={() => deleteNote(note.key)}>
-            <img src='content/delete.png' />
+            <img />
           </div>
         </div>
       </div>

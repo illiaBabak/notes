@@ -11,7 +11,7 @@ export const StorageButton = ({ notes }: Props): JSX.Element => {
 
   return (
     <div className='add-storage' onClick={handleClick}>
-      <img src='content/add_storage.png' />
+      <img />
     </div>
   );
 };

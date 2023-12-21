@@ -70,3 +70,15 @@
     }
   }
 }
+
+.note-button:nth-child(1) img {
+  background-image: url('../../../public/content/add_note.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.note-button:nth-child(2) img {
+  background-image: url('../../../public/content/edit.png');
+  background-size: cover;
+  background-position: center;
+}

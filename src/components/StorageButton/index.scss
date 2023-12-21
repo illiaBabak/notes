@@ -16,6 +16,9 @@
     width: 65px;
     height: 65px;
     object-fit: cover;
+    background-image: url('../../../public/content/add_storage.png');
+    background-size: cover;
+    background-position: center;
   }
 
   &:hover {
