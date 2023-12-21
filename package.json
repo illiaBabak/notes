@@ -1,4 +1,5 @@
 {
+  "homepage": "https://illiaBabak.github.io/notes/",
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
@@ -42,9 +43,12 @@
     ]
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.33.2",
-    "gh-pages": "^6.1.0"
+    "gh-pages": "^6.1.0",
+    "typescript": "^4.9.5"
   }
 }
