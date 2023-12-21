@@ -1,31 +1,18 @@
-import { NoteType } from 'src/types/note';
+import { useContext } from 'react';
 import { Note } from '../Note';
-import { Dispatch, SetStateAction } from 'react';
+import { Props } from 'src/App';
+import { NoteType } from 'src/types/note';
 
-type Props = {
+type PropsType = {
   notes: NoteType[];
   headerText: string;
-  isDrag: boolean;
-  draggedNoteKey: string | null;
-  setNotes: Dispatch<SetStateAction<NoteType[]>>;
-  setSelectedNote: Dispatch<SetStateAction<NoteType | null>>;
-  setIsModalVisible: Dispatch<SetStateAction<boolean>>;
-  onDrop: (notes: NoteType[]) => void;
-  onDragStart: (note: NoteType) => void;
 };
 
-export const NotesList = ({
-  notes,
-  headerText,
-  isDrag,
-  setNotes,
-  setSelectedNote,
-  setIsModalVisible,
-  onDrop,
-  onDragStart,
-  draggedNoteKey,
-}: Props): JSX.Element => {
-  const deleteNote = (key: string) => setNotes((prev) => prev.filter((note) => note.key !== key));
+export const NotesList = ({ notes, headerText }: PropsType): JSX.Element => {
+  const contextValue = useContext(Props);
+  if (!contextValue) return <div>Error</div>;
+
+  const { onDrop, draggedNoteKey, isDrag } = contextValue;
 
   return (
     <>
@@ -37,12 +24,6 @@ export const NotesList = ({
               <Note
                 note={note}
                 key={note.key}
-                onDelete={() => deleteNote(note.key)}
-                onEdit={() => {
-                  setSelectedNote(note);
-                  setIsModalVisible((prev) => !prev);
-                }}
-                onDragStart={() => onDragStart(note)}
                 className={note.key === draggedNoteKey ? 'hidden' : ''}
               />
             ))}

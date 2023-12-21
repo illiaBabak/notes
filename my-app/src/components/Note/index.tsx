@@ -1,14 +1,25 @@
+import { useContext } from 'react';
+import { Props } from 'src/App';
 import { NoteType } from 'src/types/note';
 
-type Props = {
+type PropsType = {
   note: NoteType;
-  onDelete: () => void;
-  onEdit: () => void;
-  onDragStart: (note: NoteType) => void;
   className?: string;
 };
 
-export const Note = ({ note, onDelete, onEdit, onDragStart, className }: Props): JSX.Element => {
+export const Note = ({ note, className }: PropsType): JSX.Element => {
+  const contextValue = useContext(Props);
+  if (!contextValue) return <div>Error</div>;
+
+  const { onDragStart, setNotes, setSelectedNote, setIsModalVisible } = contextValue;
+
+  const deleteNote = (key: string) => setNotes((prev) => prev.filter((note) => note.key !== key));
+
+  const editNote = () => {
+    setSelectedNote(note);
+    setIsModalVisible((prev) => !prev);
+  };
+
   return (
     <div className={`note ${className ?? ''}`} draggable onDragStart={() => onDragStart(note)}>
       <div className='header'>
@@ -19,10 +30,10 @@ export const Note = ({ note, onDelete, onEdit, onDragStart, className }: Props):
       <div className='footer'>
         <p>{note.date}</p>
         <div className='container-buttons'>
-          <div className='note-button' onClick={onEdit}>
+          <div className='note-button' onClick={editNote}>
             <img src='content/edit.png' />
           </div>
-          <div className='note-button' onClick={onDelete}>
+          <div className='note-button' onClick={() => deleteNote(note.key)}>
             <img src='content/delete.png' />
           </div>
         </div>

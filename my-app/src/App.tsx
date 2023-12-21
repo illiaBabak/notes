@@ -1,11 +1,22 @@
 import './App.scss';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, createContext, useState } from 'react';
 import { NotesPage } from './components/NotesPage';
 import { NoteType } from './types/note';
 import { AddButton } from './components/AddButton';
 import { Modal } from './components/Modal';
 import { StorageButton } from './components/StorageButton';
 import { isNotesArray } from './utils/guards';
+
+export const Props = createContext<{
+  notes: NoteType[];
+  isDrag: boolean;
+  draggedNoteKey: string | null;
+  setNotes: Dispatch<SetStateAction<NoteType[]>>;
+  setSelectedNote: Dispatch<SetStateAction<NoteType | null>>;
+  setIsModalVisible: Dispatch<SetStateAction<boolean>>;
+  onDrop: (notes: NoteType[]) => void;
+  onDragStart: (note: NoteType) => void;
+} | null>(null);
 
 export const App = (): JSX.Element => {
   const storageNotesData = localStorage.getItem('notes');
@@ -47,16 +58,11 @@ export const App = (): JSX.Element => {
       ) : (
         <Modal onSave={handleSave} setIsModalVisible={setIsModalVisible} selectedNote={selectedNote} />
       )}
-      <NotesPage
-        setSelectedNote={setSelectedNote}
-        notes={notes}
-        setNotes={setNotes}
-        setIsModalVisible={setIsModalVisible}
-        onDrop={onDrop}
-        onDragStart={onDragStart}
-        isDrag={isDrag}
-        draggedNoteKey={draggedNoteKey}
-      />
+      <Props.Provider
+        value={{ setSelectedNote, notes, setNotes, setIsModalVisible, onDrop, onDragStart, isDrag, draggedNoteKey }}
+      >
+        <NotesPage />
+      </Props.Provider>
     </div>
   );
 };
