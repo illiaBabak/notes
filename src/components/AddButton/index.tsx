@@ -5,7 +5,7 @@ type Props = {
 export const AddButton = ({ handleClick }: Props): JSX.Element => {
   return (
     <div className='add-note' onClick={handleClick}>
-      <img />
+      <img alt='' />
     </div>
   );
 };
