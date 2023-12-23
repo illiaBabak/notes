@@ -27,7 +27,7 @@ This is an educational project that implements "notes", but it has more than bas
 <p>Delete note</p>
 <p>Add notes to local storage</p>
 <p>Choose a category for notes</p>
-<p>Ability to drag and drop notes between sections with categories</p>
+<p>Ability to change note category via dnd</p>
 
 # Available Scripts
 
@@ -43,7 +43,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-# Link to try a game
+# Link to try a project
 
 https://illiababak.github.io/notes/
 
