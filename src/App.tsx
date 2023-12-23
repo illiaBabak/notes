@@ -1,13 +1,13 @@
 import './App.scss';
 import { Dispatch, SetStateAction, createContext, useState } from 'react';
-import { NotesPage } from './components/NotesPage';
 import { NoteType } from './types/note';
 import { AddButton } from './components/AddButton';
 import { Modal } from './components/Modal';
 import { StorageButton } from './components/StorageButton';
 import { isNotesArray } from './utils/guards';
+import { NOTE_TYPES, NotesList } from './components/NotesList';
 
-export const Props = createContext<{
+type GlobalContextType = {
   notes: NoteType[];
   isDrag: boolean;
   draggedNoteKey: string | null;
@@ -16,7 +16,28 @@ export const Props = createContext<{
   setIsModalVisible: Dispatch<SetStateAction<boolean>>;
   onDrop: (notes: NoteType[]) => void;
   onDragStart: (note: NoteType) => void;
-} | null>(null);
+};
+
+export const GlobalContext = createContext<GlobalContextType>({
+  notes: [],
+  isDrag: false,
+  draggedNoteKey: null,
+  setNotes: () => {
+    throw new Error('Global context is not initialized');
+  },
+  setSelectedNote: () => {
+    throw new Error('Global context is not initialized');
+  },
+  setIsModalVisible: () => {
+    throw new Error('Global context is not initialized');
+  },
+  onDrop: () => {
+    throw new Error('Global context is not initialized');
+  },
+  onDragStart: () => {
+    throw new Error('Global context is not initialized');
+  },
+});
 
 export const App = (): JSX.Element => {
   const storageNotesData = localStorage.getItem('notes');
@@ -42,27 +63,23 @@ export const App = (): JSX.Element => {
     setDraggedNoteKey(null);
   };
 
-  const handleSave = (note: NoteType) => {
-    setIsModalVisible((prev) => !prev);
-    setSelectedNote(null);
-    setNotes((prev) => [...prev.filter((note) => note.key !== selectedNote?.key), note]);
-  };
-
   return (
-    <div className='container'>
-      {!isModalVisible ? (
-        <>
-          <AddButton handleClick={() => setIsModalVisible(!isModalVisible)} />
-          <StorageButton notes={notes} />
-        </>
-      ) : (
-        <Modal onSave={handleSave} setIsModalVisible={setIsModalVisible} selectedNote={selectedNote} />
-      )}
-      <Props.Provider
-        value={{ setSelectedNote, notes, setNotes, setIsModalVisible, onDrop, onDragStart, isDrag, draggedNoteKey }}
-      >
-        <NotesPage />
-      </Props.Provider>
-    </div>
+    <GlobalContext.Provider
+      value={{ setSelectedNote, notes, setNotes, setIsModalVisible, onDrop, onDragStart, isDrag, draggedNoteKey }}
+    >
+      <div className='container'>
+        {!isModalVisible ? (
+          <>
+            <AddButton />
+            <StorageButton />
+          </>
+        ) : (
+          <Modal selectedNote={selectedNote} />
+        )}
+        {NOTE_TYPES.map((type) => (
+          <NotesList type={type} key={`notes-${type}`} />
+        ))}
+      </div>
+    </GlobalContext.Provider>
   );
 };

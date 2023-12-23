@@ -1,10 +1,9 @@
-import { NoteType } from 'src/types/note';
+import { useContext } from 'react';
+import { GlobalContext } from 'src/App';
 
-type Props = {
-  notes: NoteType[];
-};
+export const StorageButton = (): JSX.Element => {
+  const { notes } = useContext(GlobalContext);
 
-export const StorageButton = ({ notes }: Props): JSX.Element => {
   const handleClick = () => {
     localStorage.setItem('notes', JSON.stringify(notes));
   };

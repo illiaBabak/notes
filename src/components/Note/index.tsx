@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Props } from 'src/App';
+import { GlobalContext } from 'src/App';
 import { NoteType } from 'src/types/note';
 
 type PropsType = {
@@ -8,10 +8,7 @@ type PropsType = {
 };
 
 export const Note = ({ note, className }: PropsType): JSX.Element => {
-  const contextValue = useContext(Props);
-  if (!contextValue) return <div>Error</div>;
-
-  const { onDragStart, setNotes, setSelectedNote, setIsModalVisible } = contextValue;
+  const { onDragStart, setNotes, setSelectedNote, setIsModalVisible } = useContext(GlobalContext);
 
   const deleteNote = (key: string) => setNotes((prev) => prev.filter((note) => note.key !== key));
 

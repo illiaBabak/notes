@@ -1,14 +1,15 @@
 import { NoteType } from 'src/types/note';
 import { generateKey } from 'src/utils/generateKey';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { GlobalContext } from 'src/App';
 
 type Props = {
-  setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
   selectedNote: NoteType | null;
-  onSave: (note: NoteType) => void;
 };
 
-export const Modal = ({ setIsModalVisible, onSave, selectedNote }: Props): JSX.Element => {
+export const Modal = ({ selectedNote }: Props): JSX.Element => {
+  const { setIsModalVisible, setSelectedNote, setNotes } = useContext(GlobalContext);
+
   const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
   const [currentNote, setCurrentNote] = useState(
@@ -31,6 +32,12 @@ export const Modal = ({ setIsModalVisible, onSave, selectedNote }: Props): JSX.E
     setCurrentNote((prev) => {
       return { ...prev, [target.name]: target.value };
     });
+  };
+
+  const handleSave = () => {
+    setIsModalVisible((prev) => !prev);
+    setSelectedNote(null);
+    setNotes((prev) => [...prev.filter((note) => note.key !== selectedNote?.key), currentNote]);
   };
 
   return (
@@ -68,7 +75,7 @@ export const Modal = ({ setIsModalVisible, onSave, selectedNote }: Props): JSX.E
           </div>
 
           <div className={`add-note-wrapper ${!isFormValid ? 'disabled' : ''}`}>
-            <button className='add-note-button' onClick={() => onSave(currentNote)}>
+            <button className='add-note-button' onClick={handleSave}>
               {selectedNote ? 'Edit note' : 'Add note'}
             </button>
           </div>
