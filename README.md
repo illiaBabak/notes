@@ -8,6 +8,8 @@ This project was written in React using TypeScript
 <img src="https://static-00.iconduck.com/assets.00/typescript-icon-icon-1024x1024-vh3pfez8.png" alt="TypeScript" width="75" height="75" style="object-fit: cover;">
 <img src="https://cdn-icons-png.flaticon.com/512/5968/5968358.png" alt="SCSS" width="75" height="75" style="object-fit: cover;">
 
+05.12.2023-23.12.2023
+
 # Notes
 
 This is an educational project that implements "notes", but it has more than basic operations
